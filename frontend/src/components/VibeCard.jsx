@@ -12,8 +12,7 @@ import {
   Flower2,
   CloudSun,
   User,
-  Smile,
-  Heart
+  Smile
 } from "lucide-react";
 
 function clamp(value) {
@@ -32,6 +31,23 @@ const symbolItems = [
   ["Character", "character", User],
   ["Emoji", "emoji", Smile]
 ];
+
+function buildCardBackground(characterColor) {
+  const baseColor = characterColor || "#24193c";
+  return {
+    backgroundImage: `linear-gradient(145deg, ${baseColor}dd, #0b1020 48%, #050814 100%)`
+  };
+}
+
+function buildCardPaletteBackground(palette, characterColor) {
+  if (Array.isArray(palette) && palette.length >= 3) {
+    return {
+      backgroundImage: `linear-gradient(145deg, ${palette[0]}dd, ${palette[1]}cc 48%, ${palette[2]}ee 100%)`
+    };
+  }
+
+  return buildCardBackground(characterColor);
+}
 
 const VibeCard = forwardRef(function VibeCard(
   { bloom, loading, isFavorite, onToggleFavorite, onUsePrompt },
@@ -54,7 +70,6 @@ const VibeCard = forwardRef(function VibeCard(
       const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
 
       if (!blob) return;
-        const text = `${bloom.flower} · ${bloom.character}\n${bloom.emotionalReading}\n#Soulbloom`;
       const fileName = `${(bloom?.title || "memory-bloom").toLowerCase().replace(/[^a-z0-9]+/g, "-")}.png`;
       const file = new File([blob], fileName, { type: "image/png" });
 
@@ -144,7 +159,12 @@ const VibeCard = forwardRef(function VibeCard(
         <div className="bloom-card-shell">
           <div className="space-y-4 rounded-[1.7rem] border border-white/10 bg-[#0c1020]/55 p-5">
             <div className="flex items-start justify-between gap-4">
-              <div className="space-y-2">
+              <div className="space-y-3">
+                <img
+                  src="/flower.png"
+                  alt="Flower"
+                  className="h-12 w-12 rounded-2xl border border-white/12 bg-white/8 object-cover p-2"
+                />
                 <p className="text-[11px] uppercase tracking-[0.34em] text-white/40">Awaiting a memory</p>
                 <h2 className="font-display text-4xl leading-none text-white/90">A Soulbloom will appear here</h2>
               </div>
@@ -178,9 +198,7 @@ const VibeCard = forwardRef(function VibeCard(
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.75, ease: "easeOut" }}
       className="relative overflow-hidden rounded-[2rem] border border-white/12 bg-white/8 shadow-[0_40px_140px_rgba(0,0,0,0.34)] backdrop-blur-2xl"
-      style={{
-        backgroundImage: `linear-gradient(145deg, ${bloom.palette?.[0] || "#24193c"}cc, ${bloom.palette?.[1] || "#0f1531"}d9 42%, ${bloom.palette?.[2] || "#180f2e"}ef)`
-      }}
+      style={buildCardPaletteBackground(bloom.characterPalette, bloom.characterColor)}
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.18),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(255,255,255,0.06),transparent_24%)]" />
       <div className="absolute inset-0 bloom-card-noise" />
@@ -223,10 +241,7 @@ const VibeCard = forwardRef(function VibeCard(
             <p className="mt-3 text-[15px] leading-7 text-white/86">{bloom.emotionalReading}</p>
           </div>
 
-          <div className="mt-4 rounded-[1.5rem] border border-white/10 bg-white/8 p-4">
-            <p className="text-xs uppercase tracking-[0.34em] text-white/45">Emoji</p>
-            <p className="mt-3 text-4xl leading-none text-white/90">{bloom.emoji}</p>
-          </div>
+      
 
           <div className="mt-4">
             <p className="text-xs uppercase tracking-[0.34em] text-white/45">Feels like</p>

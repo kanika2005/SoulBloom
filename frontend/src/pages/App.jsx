@@ -112,7 +112,10 @@ export default function App() {
         <header className="flex items-center justify-between gap-4 pb-4">
           <div className="flex items-center gap-3">
             <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/15 bg-white/10 shadow-[0_0_40px_rgba(255,255,255,0.08)] backdrop-blur-xl">
-              <WandSparkles className="h-5 w-5 text-white" />
+              <img
+                  src="/flower.png"
+                  alt="Flower"
+                />
             </div>
 
             <div>
