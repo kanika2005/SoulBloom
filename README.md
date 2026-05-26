@@ -1,53 +1,60 @@
 
-# Memory Vibe ✨
+# SoulBloom
 
-An emotional aesthetic web app that transforms personal memories into shareable vibe cards.
+An emotional web app that transforms memories into symbolic mood cards.
 
-## Features
-- AI-generated emotional interpretation
-- Aesthetic vibe cards
-- Animated reveal transitions
-- Soft gradients + glassmorphism
-- Share/shareable cards
-- Music recommendation
-- Mobile-first responsive UI
+## Tech
+- Frontend: React + Vite + Tailwind + Framer Motion
+- Backend: Node.js + Express + Gemini API
 
-## Tech Stack
-Frontend:
-- React + Vite
-- Tailwind CSS
-- Framer Motion
+## Local Run
 
-Backend:
-- Node.js
-- Express
-- OpenAI API
+1. Install dependencies:
 
-## Setup
-
-### Frontend
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-### Backend
 ```bash
 cd backend
 npm install
+
+cd ../frontend
+npm install
 ```
 
-Create `.env`
+2. Create root `.env`:
 
 ```env
-OPENAI_API_KEY=your_key_here
+GEMINI_API_KEY=your_gemini_key
+REPLICATE_API_TOKEN=your_replicate_token
+REPLICATE_MODEL_VERSION=your_replicate_model_version
+PORT=5003
 ```
 
-Run:
+3. Start backend:
+
 ```bash
+cd backend
+npm start
+```
+
+4. Start frontend:
+
+```bash
+cd frontend
 npm run dev
 ```
 
-Backend runs on:
-http://localhost:5000
+## Deploy (Render + Vercel)
+
+### Backend on Render
+- Import this GitHub repository in Render.
+- Use the existing `render.yaml` blueprint from repo root.
+- Set environment variables in Render:
+	- `GEMINI_API_KEY`
+	- `REPLICATE_API_TOKEN`
+	- `REPLICATE_MODEL_VERSION`
+
+### Frontend on Vercel
+- Import this GitHub repository in Vercel.
+- Set Root Directory to `frontend`.
+- Set environment variable:
+	- `VITE_API_BASE_URL=https://<your-render-backend-url>`
+- Deploy.
