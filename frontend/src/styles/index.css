@@ -1,0 +1,121 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Manrope', ui-sans-serif, system-ui;
+    color: white;
+    background:
+      radial-gradient(circle at top, rgba(255, 205, 228, 0.15), transparent 30%),
+      radial-gradient(circle at bottom right, rgba(140, 120, 255, 0.16), transparent 28%),
+      linear-gradient(180deg, #060814 0%, #0a0f1f 38%, #11172c 100%);
+  }
+
+  h1,
+  h2,
+  h3,
+  .font-display {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+  }
+}
+
+@layer components {
+  .glass {
+    backdrop-filter: blur(16px);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .bg-bloom {
+    background:
+      radial-gradient(circle at 20% 20%, rgba(255, 205, 228, 0.12), transparent 28%),
+      radial-gradient(circle at 80% 14%, rgba(139, 214, 255, 0.12), transparent 24%),
+      radial-gradient(circle at 30% 80%, rgba(130, 102, 255, 0.14), transparent 30%),
+      linear-gradient(180deg, #050816 0%, #090d1a 40%, #10172c 100%);
+  }
+
+  .bloom-orb {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(14px);
+    opacity: 0.65;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    animation: bloom-float 18s ease-in-out infinite;
+  }
+
+  .bloom-orb-one {
+    top: 10%;
+    left: -4rem;
+    width: 18rem;
+    height: 18rem;
+    background: radial-gradient(circle, rgba(255, 215, 232, 0.5), rgba(255, 215, 232, 0));
+  }
+
+  .bloom-orb-two {
+    top: 22%;
+    right: -5rem;
+    width: 22rem;
+    height: 22rem;
+    animation-delay: -6s;
+    background: radial-gradient(circle, rgba(154, 187, 255, 0.42), rgba(154, 187, 255, 0));
+  }
+
+  .bloom-orb-three {
+    bottom: -8rem;
+    left: 32%;
+    width: 26rem;
+    height: 26rem;
+    animation-delay: -11s;
+    background: radial-gradient(circle, rgba(185, 151, 255, 0.3), rgba(185, 151, 255, 0));
+  }
+
+  .grain-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.12;
+    mix-blend-mode: soft-light;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 3px 3px;
+  }
+
+  .bloom-card-shell {
+    position: relative;
+  }
+
+  .bloom-card-noise {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 18px 18px;
+    opacity: 0.55;
+    mix-blend-mode: soft-light;
+    pointer-events: none;
+  }
+}
+
+@keyframes bloom-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -18px, 0) scale(1.03);
+  }
+}
