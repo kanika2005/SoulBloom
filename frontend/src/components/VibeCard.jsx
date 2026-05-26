@@ -8,21 +8,30 @@ import {
   Share2,
   Sparkles,
   Youtube,
-  Music4
+  Music4,
+  Flower2,
+  CloudSun,
+  User,
+  Smile,
+  Heart
 } from "lucide-react";
-
-const moodLabels = [
-  ["nostalgia", "Nostalgia"],
-  ["healing", "Healing"],
-  ["chaos", "Chaos"],
-  ["comfort", "Comfort"],
-  ["loneliness", "Loneliness"],
-  ["hope", "Hope"]
-];
 
 function clamp(value) {
   return Math.max(0, Math.min(100, Number(value) || 0));
 }
+
+const moodLabels = [
+  ["nostalgia", "Nostalgia"],
+  ["comfort", "Comfort"],
+  ["hope", "Hope"]
+];
+
+const symbolItems = [
+  ["Flower", "flower", Flower2],
+  ["Weather", "weather", CloudSun],
+  ["Character", "character", User],
+  ["Emoji", "emoji", Smile]
+];
 
 const VibeCard = forwardRef(function VibeCard(
   { bloom, loading, isFavorite, onToggleFavorite, onUsePrompt },
@@ -45,7 +54,7 @@ const VibeCard = forwardRef(function VibeCard(
       const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
 
       if (!blob) return;
-
+        const text = `${bloom.flower} · ${bloom.character}\n${bloom.emotionalReading}\n#Soulbloom`;
       const fileName = `${(bloom?.title || "memory-bloom").toLowerCase().replace(/[^a-z0-9]+/g, "-")}.png`;
       const file = new File([blob], fileName, { type: "image/png" });
 
@@ -137,7 +146,7 @@ const VibeCard = forwardRef(function VibeCard(
             <div className="flex items-start justify-between gap-4">
               <div className="space-y-2">
                 <p className="text-[11px] uppercase tracking-[0.34em] text-white/40">Awaiting a memory</p>
-                <h2 className="font-display text-4xl leading-none text-white/90">A bloom will appear here</h2>
+                <h2 className="font-display text-4xl leading-none text-white/90">A Soulbloom will appear here</h2>
               </div>
 
               <div className="rounded-full border border-white/10 bg-white/8 px-3 py-1 text-xs text-white/55">
@@ -146,16 +155,11 @@ const VibeCard = forwardRef(function VibeCard(
             </div>
 
             <div className="rounded-[1.5rem] border border-dashed border-white/12 bg-white/[0.03] p-4 text-sm leading-7 text-white/58">
-              Share a memory and Memory Bloom will transform it into a symbolic card with a flower, weather, mood meter, tags, and a matching song.
+              Share a memory and Soulbloom will transform it into a cinematic identity card with symbolic emotional details.
             </div>
 
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-              {[
-                "Flower",
-                "Weather",
-                "Mood",
-                "Music"
-              ].map((item) => (
+              {["Flower", "Weather", "Character", "Emoji"].map((item) => (
                 <div key={item} className="rounded-2xl border border-white/10 bg-white/8 px-3 py-3 text-xs uppercase tracking-[0.3em] text-white/45">
                   {item}
                 </div>
@@ -182,17 +186,12 @@ const VibeCard = forwardRef(function VibeCard(
       <div className="absolute inset-0 bloom-card-noise" />
 
       <div className="relative space-y-5 p-4 sm:p-5">
-        {bloom?.image && (
-          <div className="mb-3">
-            <img src={bloom.image} alt={bloom.title} className="w-full rounded-lg object-cover" />
-          </div>
-        )}
         <div className="rounded-[1.75rem] border border-white/12 bg-[#060814]/55 p-4 shadow-[0_0_0_1px_rgba(255,255,255,0.02)] sm:p-5">
           <div className="flex items-start justify-between gap-4">
             <div className="space-y-2">
-              <p className="text-[10px] uppercase tracking-[0.38em] text-white/52">memory bloom</p>
-              <h2 className="font-display text-4xl leading-[0.92] text-white sm:text-5xl">{bloom.title}</h2>
-              <p className="max-w-md text-sm leading-7 text-white/78 sm:text-[15px]">{bloom.subtitle}</p>
+              <p className="text-[10px] uppercase tracking-[0.38em] text-white/52">soulbloom</p>
+              <h2 className="font-display text-4xl leading-[0.92] text-white sm:text-5xl">{bloom.character}</h2>
+              <p className="max-w-md text-sm leading-7 text-white/78 sm:text-[15px]">{bloom.flower}</p>
             </div>
 
             <button
@@ -206,15 +205,13 @@ const VibeCard = forwardRef(function VibeCard(
           </div>
 
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            {[
-              ["Flower", bloom.flower],
-              ["Weather", bloom.weather],
-              ["Era", bloom.era],
-              ["Song Energy", bloom.songEnergy]
-            ].map(([label, value]) => (
+            {symbolItems.map(([label, key, Icon]) => (
               <div key={label} className="rounded-2xl border border-white/10 bg-white/8 px-4 py-3">
-                <p className="text-[10px] uppercase tracking-[0.32em] text-white/42">{label}</p>
-                <p className="mt-2 text-sm leading-6 text-white/84">{value}</p>
+                <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.32em] text-white/42">
+                  <Icon className="h-3.5 w-3.5" />
+                  {label}
+                </div>
+                <p className="mt-2 text-sm leading-6 text-white/84">{bloom[key]}</p>
               </div>
             ))}
           </div>
@@ -223,12 +220,12 @@ const VibeCard = forwardRef(function VibeCard(
             <div className="flex items-center gap-2 text-xs uppercase tracking-[0.34em] text-white/45">
               <Sparkles className="h-3.5 w-3.5" /> emotional reading
             </div>
-            <p className="mt-3 text-[15px] leading-7 text-white/86">{bloom.description}</p>
+            <p className="mt-3 text-[15px] leading-7 text-white/86">{bloom.emotionalReading}</p>
           </div>
 
           <div className="mt-4 rounded-[1.5rem] border border-white/10 bg-white/8 p-4">
-            <p className="text-xs uppercase tracking-[0.34em] text-white/45">Why this vibe?</p>
-            <p className="mt-3 text-[15px] leading-7 text-white/80">{bloom.whyThisVibe}</p>
+            <p className="text-xs uppercase tracking-[0.34em] text-white/45">Emoji</p>
+            <p className="mt-3 text-4xl leading-none text-white/90">{bloom.emoji}</p>
           </div>
 
           <div className="mt-4">
@@ -344,7 +341,6 @@ const VibeCard = forwardRef(function VibeCard(
               Share as image
             </button>
 
-          
             <button
               type="button"
               onClick={copyShareText}
@@ -357,7 +353,7 @@ const VibeCard = forwardRef(function VibeCard(
         </div>
 
         <div className="rounded-[1.5rem] border border-white/12 bg-white/8 px-4 py-3 text-[12px] leading-6 text-white/55">
-          {loading ? "The memory is still blooming..." : "Designed to feel like an indie album cover, a poetry page, and a screenshot-worthy story card."}
+          {loading ? "The identity is still forming..." : "Designed to feel like an indie film still, a poetry page, and a screenshot-worthy identity card."}
         </div>
       </div>
     </motion.article>

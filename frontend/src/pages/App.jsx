@@ -25,7 +25,7 @@ const starterPrompts = [
 ];
 
 function bloomKey(bloom) {
-  return [bloom?.title, bloom?.subtitle].filter(Boolean).join("::");
+  return [bloom?.flower, bloom?.character, bloom?.emoji].filter(Boolean).join("::");
 }
 
 export default function App() {
@@ -68,41 +68,13 @@ export default function App() {
 
     try {
       const response = await axios.post(`${apiBase}/api/vibe`, {
-        memory,
-        generateImage: false
+        memory
       });
 
       setBloom(response.data);
     } catch (err) {
       console.error(err);
       const message = err?.response?.data?.error || err?.message || "Could not bloom this memory right now.";
-      setError(message);
-      setBloom(null);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const generateImage = async () => {
-    if (!memory.trim()) {
-      setError("Write a memory first, then let it bloom.");
-      setBloom(null);
-      return;
-    }
-
-    setError("");
-    setLoading(true);
-
-    try {
-      const response = await axios.post(`${apiBase}/api/vibe`, {
-        memory,
-        generateImage: true
-      });
-
-      setBloom(response.data);
-    } catch (err) {
-      console.error(err);
-      const message = err?.response?.data?.error || err?.message || "Could not generate image right now.";
       setError(message);
       setBloom(null);
     } finally {
@@ -165,24 +137,22 @@ export default function App() {
             >
               <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/8 px-4 py-2 text-xs uppercase tracking-[0.38em] text-white/60 backdrop-blur-xl">
                 <Sparkles className="h-3.5 w-3.5" />
-                poetic emotional engine
+                soulbloom emotional engine
               </div>
 
               <div className="max-w-xl space-y-4">
-                <h1 className="font-display text-5xl leading-[0.92] tracking-tight text-white sm:text-6xl lg:text-7xl">
-                  Memory Bloom
-                </h1>
+                <h1 className="font-display text-5xl leading-[0.92] tracking-tight text-white sm:text-6xl lg:text-7xl">Soulbloom</h1>
 
                 <p className="max-w-lg text-base leading-7 text-white/74 sm:text-lg">
-                  Turn a private moment into a symbolic, screenshot-worthy card that feels like a perfume ad, a poetry page, and a soft indie album cover.
+                  Turn a private moment into a symbolic identity card that feels like a perfume ad, a poetry page, and a soft indie film still.
                 </p>
               </div>
 
               <div className="grid gap-3 sm:grid-cols-3">
                 {[
-                  ["Flower", "symbolic bloom"],
-                  ["Weather", "emotional climate"],
-                  ["Mood Meter", "felt intensity"]
+                  ["Flower", "symbolic identity"],
+                  ["Weather", "emotional atmosphere"],
+                  ["Mood Meter", "nostalgia / comfort / hope"]
                 ].map(([title, subtitle]) => (
                   <div key={title} className="rounded-3xl border border-white/10 bg-white/8 px-4 py-4 backdrop-blur-xl">
                     <p className="text-xs uppercase tracking-[0.32em] text-white/45">{title}</p>
@@ -241,12 +211,12 @@ export default function App() {
                   {loading ? (
                     <>
                       <Stars className="h-4 w-4 animate-pulse" />
-                      Blooming memory...
+                      Reading your aura...
                     </>
                   ) : (
                     <>
                       <WandSparkles className="h-4 w-4" />
-                      Generate Memory Bloom
+                      Generate Soulbloom
                     </>
                   )}
                 </button>
@@ -288,7 +258,6 @@ export default function App() {
               isFavorite={isFavorite}
               onToggleFavorite={toggleFavorite}
               onUsePrompt={usePrompt}
-              onGenerateImage={generateImage}
             />
           </section>
         </main>
