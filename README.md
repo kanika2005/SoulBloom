@@ -47,7 +47,7 @@ The app focuses on:
 
 ---
 
-## 🖼 Preview
+##  Preview
 
 <img width="1400" alt="Soulbloom Preview" src="sc1.png" />
 
