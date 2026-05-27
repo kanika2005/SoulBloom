@@ -51,6 +51,9 @@ The app focuses on:
 
 <img width="1400" alt="Soulbloom Preview" src="sc1.png" />
 
+<img width="1400" alt="Soulbloom Preview" src="sc2.png" />
+
+<img width="1400" alt="Soulbloom Preview" src="sc3.png" />
 ---
 
 ## 🌙 Example Output
