@@ -49,7 +49,7 @@ The app focuses on:
 
 ## 🖼 Preview
 
-<img width="1400" alt="Soulbloom Preview" src="YOUR_SCREENSHOT_LINK_HERE" />
+<img width="1400" alt="Soulbloom Preview" src="sc1.png" />
 
 ---
 
