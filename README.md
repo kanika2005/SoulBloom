@@ -170,7 +170,7 @@ Backend deployed on Render
 
 Live demo:
 
-[https://soul-bloom-8nyi-64pm23nrl-kanikas-projects-57a43994.vercel.app/](https://soul-bloom-8nyi.vercel.app/)
+[Soulbloom](https://soul-bloom-8nyi.vercel.app/)
 
 ---
 
