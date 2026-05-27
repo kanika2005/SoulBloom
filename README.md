@@ -1,61 +1,205 @@
+# soulbloom 🌙
 
-# SoulBloom
+An emotional atmosphere engine that transforms feelings, memories, and personal moments into symbolic cinematic identity cards.
 
-An emotional web app that transforms memories into symbolic mood cards.
+Soulbloom blends:
 
-## Tech
-- Frontend: React + Vite + Tailwind + Framer Motion
-- Backend: Node.js + Express + Gemini API
+* emotional storytelling
+* symbolic personality energy
+* cinematic aesthetics
+* AI interpretation
+* atmospheric design
 
-## Local Run
+into a soft, immersive experience designed to feel more like an indie album cover or a late-night thought than a traditional AI app.
 
-1. Install dependencies:
+---
+
+## ✨ Features
+
+🌸 Symbolic flower interpretation
+🌧 Emotional weather system
+🎭 Fictional/anime/cartoon character resonance
+✨ Emotional aura emoji matching
+🎵 Atmosphere-based music matching
+🪞 Cinematic emotional readings
+🌙 Emotional mood meter
+📸 Screenshot-worthy story cards
+🖼 AI-generated atmosphere imagery
+📱 Mobile-first responsive design
+🌫 Soft cinematic UI and motion design
+
+---
+
+## 🌌 Philosophy
+
+Soulbloom is not designed to feel like a chatbot.
+
+The goal is emotional resonance:
+a symbolic experience that interprets emotional atmosphere through visuals, music, cinematic writing, and identity symbolism.
+
+The app focuses on:
+
+* emotional aura
+* symbolic personality
+* soft internet culture
+* cinematic introspection
+* “this weirdly feels like me” moments
+
+---
+
+## 🖼 Preview
+
+<img width="1400" alt="Soulbloom Preview" src="YOUR_SCREENSHOT_LINK_HERE" />
+
+---
+
+## 🌙 Example Output
+
+🌸 Flower
+Lavender
+
+🌧 Weather
+Blue-gray evening air
+
+🎭 Character
+Chihiro energy
+
+✨ Emoji
+🌙
+
+🪞 Emotional Reading
+You quietly carry emotional meaning inside ordinary moments and notice feelings most people move past too quickly.
+
+🎵 Music Match
+Space Song — Beach House
+
+---
+
+## 🛠 Tech Stack
+
+### Frontend
+
+* React
+* Vite
+* Tailwind CSS
+* Framer Motion
+
+### Backend
+
+* Node.js
+* Express
+
+### AI + APIs
+
+* Gemini API
+* Replicate API
+
+### Deployment
+
+* Vercel
+* Render
+
+---
+
+## 🌸 Local Setup
+
+Clone the repository:
 
 ```bash
-cd backend
-npm install
+git clone https://github.com/YOUR_USERNAME/soulbloom.git
+cd soulbloom
+```
 
-cd ../frontend
+Install frontend dependencies:
+
+```bash
+cd client
 npm install
 ```
 
-2. Create root `.env`:
+Install backend dependencies:
+
+```bash
+cd ../server
+npm install
+```
+
+---
+
+## 🌙 Environment Variables
+
+Create a `.env` file inside the backend:
 
 ```env
-GEMINI_API_KEY=your_gemini_key
-REPLICATE_API_TOKEN=your_replicate_token
-REPLICATE_MODEL_VERSION=your_replicate_model_version
-PORT=5003
+GEMINI_API_KEY=your_key
+REPLICATE_API_TOKEN=your_key
+REPLICATE_MODEL_VERSION=your_model_version
 ```
 
-3. Start backend:
+Create a `.env` file inside the frontend:
 
-```bash
-cd backend
-npm start
+```env
+VITE_API_BASE_URL=http://localhost:5000
 ```
 
-4. Start frontend:
+---
+
+## 🚀 Run Locally
+
+Backend:
 
 ```bash
-cd frontend
 npm run dev
 ```
 
-## Deploy (Render + Vercel)
+Frontend:
 
-### Backend on Render
-- Import this GitHub repository in Render.
-- Use the existing `render.yaml` blueprint from repo root.
-- Set environment variables in Render:
-	- `GEMINI_API_KEY`
-	- `REPLICATE_API_TOKEN`
-	- `REPLICATE_MODEL_VERSION`
+```bash
+npm run dev
+```
 
-### Frontend on Vercel
-- Import this GitHub repository in Vercel.
-- Set Root Directory to `frontend`.
-- Set environment variable:
-	- `VITE_API_BASE_URL=https://<your-render-backend-url>`
-- Deploy.
--
+---
+
+## 🌧 Deployment
+
+Frontend deployed on Vercel
+Backend deployed on Render
+
+Live demo:
+
+https://soul-bloom-8nyi-64pm23nrl-kanikas-projects-57a43994.vercel.app/
+
+---
+
+## ✨ Future Ideas
+
+* atmospheric image generation
+* cinematic reveal animations
+* emotional profile system
+* saved aura archives
+* symbolic multiplayer matching
+* ambient soundtrack mode
+* shareable emotional story exports
+
+---
+
+## 🌸 Inspiration
+
+Inspired by:
+
+* indie album covers
+* cinematic nostalgia
+* emotional internet culture
+* Persona
+* Gris
+* Spotify Wrapped
+* late-night overthinking
+* symbolic storytelling
+
+---
+
+## 🌙 License
+
+MIT License
+
+Built with softness, symbolism, and emotional chaos ✨
