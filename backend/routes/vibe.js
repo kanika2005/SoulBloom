@@ -89,6 +89,17 @@ function attachCharacterColor(payload) {
   };
 }
 
+function isValidNature(nature) {
+  return (
+    nature &&
+    typeof nature === "object" &&
+    typeof nature.franchise === "string" &&
+    typeof nature.mood === "string" &&
+    characterPools[nature.franchise] &&
+    Array.isArray(characterPools[nature.franchise][nature.mood])
+  );
+}
+
 const characterPools = {
   avengersInspired: {
     hopeful: ["Spider-Man", "Captain America", "Iron Man", "Thor", "Black Panther", "Doctor Strange", "Ant-Man", "Vision", "Hawkeye", "Falcon"],
@@ -135,6 +146,24 @@ const characterPools = {
   }
 };
 
+const characterRotationState = new Map();
+
+function seedFromText(text = "") {
+  return [...text.toLowerCase()].reduce((sum, char) => sum + char.charCodeAt(0), 0);
+}
+
+function shufflePool(pool, seedText) {
+  const items = [...new Set(pool)];
+  const seed = seedFromText(seedText);
+
+  for (let index = items.length - 1; index > 0; index -= 1) {
+    const swapIndex = (seed + index * 31) % (index + 1);
+    [items[index], items[swapIndex]] = [items[swapIndex], items[index]];
+  }
+
+  return items;
+}
+
 function getPoolFromMemory(memory = "") {
   const lower = memory.toLowerCase();
 
@@ -149,12 +178,44 @@ function getPoolFromMemory(memory = "") {
   return ["avengersInspired", "thoughtful"];
 }
 
-function pickCharacterFromPool(memory = "") {
-  const [franchiseName, moodName] = getPoolFromMemory(memory);
+function pickCharacterFromNature(nature = null, memory = "") {
+  const [fallbackFranchise, fallbackMood] = getPoolFromMemory(memory);
+  const franchiseName = isValidNature(nature) ? nature.franchise : fallbackFranchise;
+  const moodName = isValidNature(nature) ? nature.mood : fallbackMood;
   const franchise = characterPools[franchiseName] || characterPools.avengersInspired;
   const pool = franchise[moodName] || franchise.thoughtful || Object.values(franchise)[0];
-  const seed = [...memory.toLowerCase()].reduce((sum, char) => sum + char.charCodeAt(0), 0);
-  return pool[seed % pool.length];
+  const rotationKey = `${franchiseName}:${moodName}`;
+  const uniquePool = [...new Set(pool)];
+
+  if (uniquePool.length === 0) {
+    return "";
+  }
+
+  if (uniquePool.length === 1) {
+    return uniquePool[0];
+  }
+
+  const currentState = characterRotationState.get(rotationKey);
+  const sourceSignature = uniquePool.join("|");
+
+  const state =
+    currentState && currentState.sourceSignature === sourceSignature
+      ? currentState
+      : {
+          order: shufflePool(uniquePool, rotationKey),
+          index: 0,
+          sourceSignature
+        };
+
+  const character = state.order[state.index];
+  state.index = (state.index + 1) % state.order.length;
+  characterRotationState.set(rotationKey, state);
+
+  return character;
+}
+
+function pickCharacterFromPool(memory = "") {
+  return pickCharacterFromNature(null, memory);
 }
 
 const fallbackVibes = [
@@ -280,6 +341,10 @@ INPUT:
 
 Return ONLY valid JSON with this exact structure:
 {
+  "nature": {
+    "franchise": "",
+    "mood": ""
+  },
   "flower": "",
   "weather": "",
   "character": "",
@@ -300,6 +365,8 @@ Return ONLY valid JSON with this exact structure:
 }
 
 FIELD RULES:
+- nature.franchise: choose exactly one of avengersInspired, friendsInspired, wednesdayInspired, shinchanInspired, doraemonInspired, narutoInspired, harryPotterInspired.
+- nature.mood: choose a valid mood inside that franchise.
 - flower: choose a symbolic flower representing emotional personality.
 - weather: describe emotional atmosphere, not literal climate.
 - character: choose a familiar mainstream fictional character or archetype.
@@ -317,16 +384,22 @@ Write like indie film narration, emotional poetry, and internal monologue. Avoid
 
 function normalizeSoulbloomPayload(rawPayload, memory = "") {
   const fallback = buildFallback(memory);
+  const nature = isValidNature(rawPayload?.nature)
+    ? rawPayload.nature
+    : {
+        franchise: getPoolFromMemory(memory)[0],
+        mood: getPoolFromMemory(memory)[1]
+      };
 
   if (!rawPayload || typeof rawPayload !== "object") {
     return fallback;
   }
 
   return {
+    nature,
     flower: typeof rawPayload.flower === "string" && rawPayload.flower.trim() ? rawPayload.flower : fallback.flower,
     weather: typeof rawPayload.weather === "string" && rawPayload.weather.trim() ? rawPayload.weather : fallback.weather,
-    character:
-      typeof rawPayload.character === "string" && rawPayload.character.trim() ? rawPayload.character : fallback.character,
+    character: pickCharacterFromNature(nature, memory),
     emoji: typeof rawPayload.emoji === "string" && rawPayload.emoji.trim() ? rawPayload.emoji : fallback.emoji,
     emotionalReading:
       typeof rawPayload.emotionalReading === "string" && rawPayload.emotionalReading.trim()
@@ -365,7 +438,7 @@ function normalizeSoulbloomPayload(rawPayload, memory = "") {
 }
 
 async function generateWithFallbackModels(client, prompt) {
-  const candidates = ["gemini-2.0-flash", "gemini-2.0-flash-lite", "gemini-1.5-flash-latest", "gemini-1.5-flash"];
+  const candidates = ["gemini-2.0-flash", "gemini-2.0-flash-lite"];
   let lastError = null;
 
   for (const modelName of candidates) {

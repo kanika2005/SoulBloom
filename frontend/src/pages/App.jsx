@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import VibeCard from "../components/VibeCard";
 
-const apiBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+const apiBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:5007";
 
 const starterPrompts = [
   "Watching rain while overthinking life.",

@@ -32,6 +32,20 @@ const symbolItems = [
   ["Emoji", "emoji", Smile]
 ];
 
+function renderSymbolValue(label, value) {
+  if (label !== "Emoji") {
+    return <p className="mt-2 text-sm leading-6 text-white/84">{value}</p>;
+  }
+
+  return (
+    <div className="mt-2 flex min-h-14 items-center">
+      <span className="text-3xl leading-none sm:text-4xl" role="img" aria-label="Emoji">
+        {value}
+      </span>
+    </div>
+  );
+}
+
 function buildCardBackground(characterColor) {
   const baseColor = characterColor || "#24193c";
   return {
@@ -160,11 +174,9 @@ const VibeCard = forwardRef(function VibeCard(
           <div className="space-y-4 rounded-[1.7rem] border border-white/10 bg-[#0c1020]/55 p-5">
             <div className="flex items-start justify-between gap-4">
               <div className="space-y-3">
-                <img
-                  src="/flower.png"
-                  alt="Flower"
-                  className="h-12 w-12 rounded-2xl border border-white/12 bg-white/8 object-cover p-2"
-                />
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/12 bg-gradient-to-br from-[#ffd6e6] via-[#c8b6ff] to-[#86d6ff] text-slate-950 shadow-[0_14px_36px_rgba(150,140,255,0.25)]">
+                  <Flower2 className="h-7 w-7" />
+                </div>
                 <p className="text-[11px] uppercase tracking-[0.34em] text-white/40">Awaiting a memory</p>
                 <h2 className="font-display text-4xl leading-none text-white/90">A Soulbloom will appear here</h2>
               </div>
@@ -229,7 +241,7 @@ const VibeCard = forwardRef(function VibeCard(
                   <Icon className="h-3.5 w-3.5" />
                   {label}
                 </div>
-                <p className="mt-2 text-sm leading-6 text-white/84">{bloom[key]}</p>
+                {renderSymbolValue(label, bloom[key])}
               </div>
             ))}
           </div>
